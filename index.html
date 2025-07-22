@@ -53,6 +53,16 @@
     .project-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
     .project-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
     .dark .project-card { box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1); }
+    @keyframes revealText {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
   </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
@@ -66,10 +76,11 @@
       const [darkMode, setDarkMode] = useState(false);
       const [formData, setFormData] = useState({ name: '', email: '', message: '' });
       const [formError, setFormError] = useState('');
+      const [showAbout, setShowAbout] = useState(false); // Add this line
 
       const toggleDarkMode = () => {
         setDarkMode(!darkMode);
-        document.body.classList.toggle('dark');
+        document.documentElement.classList.toggle('dark'); // Use html element for Tailwind dark mode
       };
 
       const handleInputChange = (e) => {
@@ -119,12 +130,30 @@
             <div className="container mx-auto text-center px-4">
               <h2 className="text-5xl font-bold mb-4 animate-fade-in">Syed Ammar Hashmi</h2>
               <p className="text-xl mb-6">Computer Science Graduate | Full-Stack Developer | AI Enthusiast</p>
+              <button
+                onClick={() => setShowAbout(!showAbout)}
+                className="bg-white text-blue-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-200"
+              >
+                About Me
+              </button>
               <a
                 href="#contact"
-                className="bg-white text-blue-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-200"
+                className="bg-white text-blue-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-200 ml-2"
               >
                 Get in Touch
               </a>
+              {showAbout && (
+                <div
+                  className="mt-6 bg-white bg-opacity-90 text-blue-900 rounded-lg p-6 shadow-lg max-w-xl mx-auto animate-fade-in"
+                  style={{
+                    animation: 'revealText 1s ease'
+                  }}
+                >
+                  <p>
+                    I am a passionate Computer Science graduate with a strong background in full-stack development and artificial intelligence. I love building innovative solutions, learning new technologies, and collaborating on impactful projects.
+                  </p>
+                </div>
+              )}
             </div>
           </section>
 
